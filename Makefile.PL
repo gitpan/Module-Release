@@ -1,0 +1,29 @@
+# $Id: Makefile.PL,v 1.14 2005/11/11 02:36:45 comdog Exp $
+use ExtUtils::MakeMaker;
+
+eval "use Test::Manifest";
+	   
+WriteMakefile(
+	'NAME'	       => 'Module::Release',
+	'VERSION_FROM' => "lib/Module/Release.pm",
+	
+	'EXE_FILES'    =>  [ 'release' ],
+	    	
+	'PREREQ_PM'    => 
+		{
+ 		'ConfigReader::Simple' => 0,
+		'Net::FTP'             => 0,
+		'HTTP::Message'        => 0,
+		'Crypt::SSLeay'        => 0,
+		},
+
+	'PM'           => {
+        'lib/Module/Release.pm'     => '$(INST_LIBDIR)/Release.pm',
+		},
+
+	'MAN1PODS'     => {
+		'release' => '$(INST_MAN1DIR)/release.1',
+		},
+		
+	clean => { FILES => '*.bak release-*' },
+	);
