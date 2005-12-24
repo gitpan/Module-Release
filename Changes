@@ -1,4 +1,4 @@
-$Id: Changes,v 1.27 2004/12/17 21:54:48 petdance Exp $
+$Id: Changes,v 1.1.1.1 2005/12/24 18:52:19 comdog Exp $
 
 0.25 - Fri Dec 17 15:53:15 CST 2004
 	* No changes to functionality.
@@ -15,8 +15,8 @@ $Id: Changes,v 1.27 2004/12/17 21:54:48 petdance Exp $
 	it was not checking each line of output
 
 0.23 - Sun Jun 22 23:40:00 2003 (Andy Lester)
-        * All output now goes to the screen if --debug is on.  Thanks to
-          Ken Williams.  "High school students."
+	* All output now goes to the screen if --debug is on.  Thanks to
+	Ken Williams.  "High school students."
 
 0.23
 	* release will show the user all STDOUT of the subprocesses
@@ -37,7 +37,7 @@ $Id: Changes,v 1.27 2004/12/17 21:54:48 petdance Exp $
 
 	* Renamed cvs() to check_cvs()
 
-        * Added basic POD docs for the functions
+	* Added basic POD docs for the functions
 
 0.21 - Sat Mar 29 16:19:00 2003 (Andy Lester)
 	Many more patches, thanks to Ken Williams.  I fear it won't be
@@ -59,8 +59,8 @@ $Id: Changes,v 1.27 2004/12/17 21:54:48 petdance Exp $
 	  tag string.  This lets me override make_cvs_tag() in a subclass.
 
 0.20 - Wed Mar 26 11:05:00 2003 (Andy Lester)
-        * Moved all the real work into Module::Release.  Thanks to 
-	  Ken Williams for doing all the dirty work on this.
+	* Moved all the real work into Module::Release.  Thanks to 
+	Ken Williams for doing all the dirty work on this.
 
 	* Fixed the Test::Pod dependency
 

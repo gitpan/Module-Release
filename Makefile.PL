@@ -1,13 +1,13 @@
-# $Id: Makefile.PL,v 1.14 2005/11/11 02:36:45 comdog Exp $
+# $Id: Makefile.PL,v 1.3 2005/12/24 20:35:09 comdog Exp $
 use ExtUtils::MakeMaker;
 
 eval "use Test::Manifest";
 	   
 WriteMakefile(
 	'NAME'	       => 'Module::Release',
-	'VERSION_FROM' => "lib/Module/Release.pm",
+	'VERSION_FROM' => "lib/Release.pm",
 	
-	'EXE_FILES'    =>  [ 'release' ],
+	'EXE_FILES'    =>  [ 'script/release' ],
 	    	
 	'PREREQ_PM'    => 
 		{
@@ -15,14 +15,15 @@ WriteMakefile(
 		'Net::FTP'             => 0,
 		'HTTP::Message'        => 0,
 		'Crypt::SSLeay'        => 0,
+		'File::Temp'           => 0,
 		},
 
 	'PM'           => {
-        'lib/Module/Release.pm'     => '$(INST_LIBDIR)/Release.pm',
+        'lib/Release.pm'     => '$(INST_LIBDIR)/Release.pm',
 		},
 
 	'MAN1PODS'     => {
-		'release' => '$(INST_MAN1DIR)/release.1',
+		'script/release' => '$(INST_MAN1DIR)/release.1',
 		},
 		
 	clean => { FILES => '*.bak release-*' },
