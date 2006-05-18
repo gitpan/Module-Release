@@ -1,5 +1,7 @@
 #!/usr/bin/perl
-# $Id: release,v 1.1.1.1 2005/12/24 18:52:19 comdog Exp $
+use strict;
+
+# $Id: release,v 1.4 2006/05/18 02:05:12 comdog Exp $
 
 =head1 NAME
 
@@ -7,7 +9,16 @@ release - upload files to the CPAN and SourceForge.net
 
 =head1 SYNOPSIS
 
-release [ LOCAL_FILE REMOTE_FILE ]
+	release [ LOCAL_FILE REMOTE_FILE ]
+	
+	# try a dry run without uploading anything
+	release -t
+	
+	# print a help message
+	release -h
+	
+	# print debugging information
+	release -d 
 
 =head1 DESCRIPTION
 
@@ -202,24 +213,24 @@ Andy Lester, C<< <andy@petdance.com> >>
 
 =head1 COPYRIGHT
 
-Copyright 2002-2003, brian d foy, All rights reserved.
+Copyright 2002-2005, brian d foy, All rights reserved.
 
 You may use this software under the same terms as Perl itself.
 
 =cut
 
-
-use strict;
-
+use Getopt::Std;
 use Module::Release;
 
-use Getopt::Std;
+my( $script_version ) = 
+	sprintf "%d.%02d", q$Revision: 1.4 $ =~ m/ (\d+) \. (\d+) /xg;
 
 my %opts;
 getopts('hdt', \%opts) or $opts{h} = 1;
 
-if ($opts{h}) {
-        print <<"USAGE";
+if( $opts{h} ) 
+	{
+	print <<"USAGE";
 
 Usage: release -hdt [ LOCAL_FILE REMOTE_FILE ]
 
@@ -236,38 +247,96 @@ file and the environment for its preferences.  See `man release`, or
 `perldoc $0`, for more information.
 
 USAGE
-        exit();
-}
 
-# Construct the Release object
+	exit;
+	}
+
 my %params;
-$params{local}  = shift(@ARGV) if @ARGV;
-if (@ARGV) {
-    $params{remote} = shift(@ARGV);
-} elsif ($params{local}) {
+$params{local}  = shift @ARGV if @ARGV;
+
+if( @ARGV ) 
+	{
+    $params{remote} = shift @ARGV;
+	} 
+elsif( $params{local} ) 
+	{
     $params{remote} = $params{local};
-}
+	}
 
 $params{debug} = 1 if $opts{d};
 
-my $r = Module::Release->new(%params);
-warn "release, based on Module::Release $Module::Release::VERSION\n" if $params{debug};
+my $release = Module::Release->new( %params );
 
-$r->clean;
-$r->build_makefile;
-$r->test;
-$r->dist;
-$r->dist_test;
-$r->check_cvs;
+print STDERR "release $script_version, using Module::Release "
+	.  Module::Release->VERSION . "\n" 
+		if $release->debug;
+
+$release->clean;
+$release->build_makefile;
+$release->test;
+$release->dist;
+$release->dist_test;
+$release->check_cvs;
 exit if $opts{t};
 
-$r->check_for_passwords;
-$r->ftp_upload;
-$r->pause_claim;
-$r->cvs_tag;
-$r->sf_login;
-$r->sf_qrs;
-$r->sf_release;
+my $Version = $release->dist_version;
+
+my $Changes = do {
+	my $changes = "Changes";
+	my $bak     = $changes . ".bak";
+	
+	die "Changes file does not exist!\n" unless -e $changes;
+	
+	print "\n", "-" x 73, "\n", "Enter Changes section\n\n> ";
+	
+	my $str = $Version . " - " . localtime() . "\n";
+	
+	while( <STDIN> )
+		{
+		$_ =~ s/^(\S)/\t$1/; # always indent
+		
+		$str .= $_;
+		print "> ";
+		}
+		
+	$str .= "\n";
+	
+	rename $changes, $bak or die "Could not backup $changes. $!\n";
+	open my $in, $bak or die "Could not read old $changes file! $!\n";
+	open my $out, ">", $changes;
+	
+	while( <$in> )
+		{
+		print $out $_;
+		last unless m/\S/;
+		}
+		
+	print $out $str;
+	
+	print $out $_ while( <$in> );
+	
+	close $in;
+	close $out;
+
+	my $cvs_commit = `cvs commit -m "* for version $Version" $changes 2>&1`;
+	
+	print $cvs_commit;
+	
+	$str;
+	};
+
+$release->clean;
+$release->build_makefile;
+$release->dist;
+
+$release->check_for_passwords;
+$release->ftp_upload;
+$release->pause_claim;
+$release->cvs_tag;
+
+$release->sf_login;
+$release->sf_qrs;
+$release->sf_release;
 
 print "Done.\n";
 
