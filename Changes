@@ -1,4 +1,7 @@
-$Id: Changes,v 1.1.1.1 2005/12/24 18:52:19 comdog Exp $
+$Id: Changes,v 1.2 2006/05/18 02:07:02 comdog Exp $
+
+1.07 - Wed May 17 21:06:39 2006
+	* Minor updates to the distro - no code changes. No need to upgrade
 
 0.25 - Fri Dec 17 15:53:15 CST 2004
 	* No changes to functionality.
