@@ -1,4 +1,4 @@
-# $Id: Release.pm,v 1.8 2006/05/20 07:41:51 comdog Exp $
+# $Id: Release.pm,v 1.10 2006/06/08 05:50:11 comdog Exp $
 package Module::Release;
 
 =head1 NAME
@@ -19,14 +19,14 @@ Module::Release - Automate software releases
 
 use vars qw( $VERSION );
 
-$VERSION = sprintf "%d.%02d", q$Revision: 1.8 $ =~ m/(\d+) \. (\d+)/xg;
-sub VERSION () { $VERSION };
+$VERSION = sprintf "%d.%02d", q$Revision: 1.10 $ =~ m/(\d+) \. (\d+)/xg;
 
 use strict;
 use Carp;
 use Config;
 use CGI qw(-oldstyle_urls);
 use ConfigReader::Simple;
+use Exporter;
 use LWP::UserAgent;
 use HTTP::Cookies;
 use HTTP::Request;
@@ -89,8 +89,8 @@ tries to upload anonymously but cannot claim the file for you.
 
 =item CPAN_PASS
 
-Your SourceForge password. If you don't set this and you want to upload
-to SourceForge, you should be prompted for it. Failing that, the module
+Your CPAN password. If you don't set this and you want to upload
+to PAUSE, you should be prompted for it. Failing that, the module
 tries to upload anonymously but cannot claim the file for you.
 
 =back

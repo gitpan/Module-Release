@@ -1,7 +1,7 @@
-# $Id: Makefile.PL,v 1.3 2005/12/24 20:35:09 comdog Exp $
+# $Id: Makefile.PL,v 1.4 2006/06/08 05:48:24 comdog Exp $
 use ExtUtils::MakeMaker;
 
-eval "use Test::Manifest";
+eval "use Test::Manifest 1.14";
 	   
 WriteMakefile(
 	'NAME'	       => 'Module::Release',
@@ -19,7 +19,7 @@ WriteMakefile(
 		},
 
 	'PM'           => {
-        'lib/Release.pm'     => '$(INST_LIBDIR)/Release.pm',
+        'lib/Release.pm' => '$(INST_LIBDIR)/Release.pm',
 		},
 
 	'MAN1PODS'     => {
