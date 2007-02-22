@@ -1,17 +1,20 @@
-# $Id: Makefile.PL,v 1.4 2006/06/08 05:48:24 comdog Exp $
+# $Id: Makefile.PL 2159 2007-02-21 21:13:23Z comdog $
 use ExtUtils::MakeMaker;
 
 eval "use Test::Manifest 1.14";
-	   
+
 WriteMakefile(
 	'NAME'	       => 'Module::Release',
+	'AUTHOR'       => 'brian d foy <bdfoy@cpan.org>',
+	'ABSTRACT'     => 'Automate software releases',
 	'VERSION_FROM' => "lib/Release.pm",
-	
+	'LICENSE'       => 'perl',
+
 	'EXE_FILES'    =>  [ 'script/release' ],
-	    	
+
 	'PREREQ_PM'    => 
 		{
- 		'ConfigReader::Simple' => 0,
+		'ConfigReader::Simple' => 0,
 		'Net::FTP'             => 0,
 		'HTTP::Message'        => 0,
 		'Crypt::SSLeay'        => 0,
@@ -19,12 +22,12 @@ WriteMakefile(
 		},
 
 	'PM'           => {
-        'lib/Release.pm' => '$(INST_LIBDIR)/Release.pm',
+		'lib/Release.pm' => '$(INST_LIBDIR)/Release.pm',
 		},
 
 	'MAN1PODS'     => {
 		'script/release' => '$(INST_MAN1DIR)/release.1',
 		},
-		
+
 	clean => { FILES => '*.bak release-*' },
 	);

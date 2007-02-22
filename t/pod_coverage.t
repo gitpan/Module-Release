@@ -1,4 +1,4 @@
-# $Id: pod_coverage.t,v 1.3 2006/06/08 05:48:24 comdog Exp $
+# $Id: pod_coverage.t 1843 2006-06-08 05:48:24Z comdog $
 use Test::More;
 eval "use Test::Pod::Coverage 1.00";
 plan skip_all => "Test::Pod::Coverage 1.00 required for testing POD" if $@;

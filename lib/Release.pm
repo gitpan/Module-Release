@@ -1,4 +1,4 @@
-# $Id: Release.pm,v 1.10 2006/06/08 05:50:11 comdog Exp $
+# $Id: Release.pm 2159 2007-02-21 21:13:23Z comdog $
 package Module::Release;
 
 =head1 NAME
@@ -19,7 +19,7 @@ Module::Release - Automate software releases
 
 use vars qw( $VERSION );
 
-$VERSION = 1.12;
+$VERSION = 1.13;
 
 use strict;
 use Carp;
@@ -38,7 +38,7 @@ use constant DASHES => "-" x 73;
 =head1 DESCRIPTION
 
 C<Module::Release> automates your software release process. It started as
-a script that automated my (brian) release process, so it has bits to
+a script that automated my release process, so it has bits to
 talk to PAUSE (CPAN) and SourceForge, and to use C<Makefile.PL> and
 C<CVS>. Other people have extended this in other modules under the same
 namespace so you can use C<Module::Build>, C<svn>, and many other things.
@@ -193,14 +193,14 @@ sub new
 	my $conf = -e ".releaserc" ? ".releaserc" : "releaserc";
 
 	my $self = {
-			makefile_PL => 'Makefile.PL',
-			makefile    => 'Makefile',
-			make        => $Config{make},
-			perl        => $ENV{PERL} || $^X,
-			conf        => $conf,
-			debug       => $ENV{RELEASE_DEBUG} || 0,
-			local       => undef,
-			remote      => undef,
+			'Makefile.PL' => 'Makefile.PL',
+			'Makefile'    => 'Makefile',
+			make          => $Config{make},
+			perl          => $ENV{PERL} || $^X,
+			conf          => $conf,
+			debug         => $ENV{RELEASE_DEBUG} || 0,
+			'local'       => undef,
+			remote        => undef,
 			%params,
 		   };
 
@@ -317,9 +317,9 @@ sub clean
 	my $self = shift;
 	print "Cleaning directory... ";
 
-	unless( -e $self->{makefile} )
+	unless( -e $self->{Makefile} )
 		{
-		print " no $self->{makefile}---skipping\n";
+		print " no $self->{Makefile}---skipping\n";
 		return;
 		}
 
@@ -342,13 +342,13 @@ sub build_makefile
 	my $self = shift;
 	print "Recreating make file... ";
 
-	unless( -e '$self->{makefile_PL}' )
+	unless( -e $self->{'Makefile.PL'} )
 		{
-		print " no $self->{makefile_PL}---skipping\n";
+		print " no $self->{'Makefile.PL'}---skipping\n";
 		return;
 		}
 
-	$self->run( "$self->{perl} $self->{makefile_PL} 2>&1" );
+	$self->run( "$self->{perl} $self->{'Makefile.PL'} 2>&1" );
 
 	print "done\n";
 	}
@@ -364,9 +364,9 @@ sub test
 	my $self = shift;
 	print "Checking make test... ";
 
-	unless( -e $self->{makefile_PL} )
+	unless( -e $self->{'Makefile.PL'} )
 		{
-		print " no $self->{makefile_PL}---skipping\n";
+		print " no $self->{'Makefile.PL'}---skipping\n";
 		return;
 		}
 
@@ -390,9 +390,9 @@ sub dist
 	my $self = shift;
 	print "Making dist... ";
 
-	unless( -e $self->{makefile_PL} )
+	unless( -e $self->{'Makefile.PL'} )
 		{
-		print " no $self->{makefile_PL}---skipping\n";
+		print " no $self->{'Makefile.PL'}---skipping\n";
 		return;
 		}
 
@@ -412,6 +412,33 @@ sub dist
 	print "done\n";
 	}
 
+=item check_kwalitee()
+
+Run `cpants_lints.pl distname.tgz`. 
+
+=cut
+
+sub check_kwalitee
+	{
+	my $self = shift;
+	print "Making dist... ";
+
+	unless( -e $self->{'Makefile.PL'} )
+		{
+		print " no $self->{'Makefile.PL'}---skipping\n";
+		return;
+		}
+
+	# XXX: what if it's not .tar.gz?
+	my $messages = $self->run( "cpants_lint.pl *.tar.gz" );
+
+	die unless $messages =~ m/a 'perfect' distribution!/;
+	
+	print "$messages; done\n";
+	
+	exit;
+	}
+	
 =item dist_test
 
 Run `make disttest`. If the tests fail, it dies.
@@ -424,9 +451,9 @@ sub dist_test
 
 	print "Checking disttest... ";
 
-	unless( -e $self->{makefile_PL} )
+	unless( -e $self->{'Makefile.PL'} )
 		{
-		print " no $self->{makefile_PL}---skipping\n";
+		print " no $self->{'Makefile.PL'}---skipping\n";
 		return;
 		}
 
@@ -1072,9 +1099,9 @@ members of the project can shepherd this module appropriately.
 
 brian d foy, C<< <bdfoy@cpan.org> >>
 
-=head1 COPYRIGHT
+=head1 COPYRIGHT AND LICENSE
 
-Copyright (c) 2002-2006 brian d foy.  All rights reserved.
+Copyright (c) 2002-2007 brian d foy.  All rights reserved.
 
 This program is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
