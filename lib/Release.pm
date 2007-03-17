@@ -1,4 +1,4 @@
-# $Id: Release.pm 2159 2007-02-21 21:13:23Z comdog $
+# $Id: Release.pm 2161 2007-02-22 16:13:27Z comdog $
 package Module::Release;
 
 =head1 NAME
@@ -19,7 +19,7 @@ Module::Release - Automate software releases
 
 use vars qw( $VERSION );
 
-$VERSION = 1.13;
+$VERSION = 1.14;
 
 use strict;
 use Carp;
@@ -83,23 +83,24 @@ Do you want debugging output? Set this to a true value
 
 =item SF_PASS
 
-Your SourceForge password. If you don't set this and you want to upload
-to SourceForge, you should be prompted for it. Failing that, the module
-tries to upload anonymously but cannot claim the file for you.
+Your SourceForge password. If you don't set this and you want to
+upload to SourceForge, you should be prompted for it. Failing that,
+the module tries to upload anonymously but cannot claim the file for
+you.
 
 =item CPAN_PASS
 
-Your CPAN password. If you don't set this and you want to upload
-to PAUSE, you should be prompted for it. Failing that, the module
-tries to upload anonymously but cannot claim the file for you.
+Your CPAN password. If you don't set this and you want to upload to
+PAUSE, you should be prompted for it. Failing that, the module tries
+to upload anonymously but cannot claim the file for you.
 
 =back
 
 =head3 C<.releaserc>
 
 C<Module::Release> looks for either C<.releaserc> or C<releaserc> in
-the current working directory. It reads that with C<ConfigReader::Simple>
-to get these values:
+the current working directory. It reads that with
+C<ConfigReader::Simple> to get these values:
 
 =over 4
 
@@ -212,7 +213,7 @@ sub new
 	# See whether we should be using a subclass
 	if( my $subclass = $config->release_subclass )
 		{
-		unless (UNIVERSAL::can($subclass, 'new'))
+		unless( eval { $subclass->can( 'new' ) } )
 			{
 			require File::Spec->catfile( split '::', $subclass ) . '.pm';
 			}
@@ -259,9 +260,11 @@ sub new
 	# Set up the browser
 	$self->{ua}      = LWP::UserAgent->new( agent => 'Mozilla/4.5' );
 
-	# my $fh = File::Temp->new( UNLINK => 1 );
+	my $fh = File::Temp->new( UNLINK => 1 );
+	
+	$self->{cookie_fh} = $fh;  # to keep it around until we're done
 	$self->{cookies} = HTTP::Cookies->new(
-					    #file           => $fh->filename,
+					    file           => $fh->filename,
 					    hide_cookie2   => 1,
 					    autosave       => 1,
 					    );
@@ -414,7 +417,8 @@ sub dist
 
 =item check_kwalitee()
 
-Run `cpants_lints.pl distname.tgz`. 
+Run `cpants_lints.pl distname.tgz`. If it doesn't see "a 'perfect' distribution"
+it dies. 
 
 =cut
 
@@ -432,11 +436,10 @@ sub check_kwalitee
 	# XXX: what if it's not .tar.gz?
 	my $messages = $self->run( "cpants_lint.pl *.tar.gz" );
 
-	die unless $messages =~ m/a 'perfect' distribution!/;
+	die "Kwalitee is less than perfect:\n$messages\n"
+		unless $messages =~ m/a 'perfect' distribution!/;
 	
-	print "$messages; done\n";
-	
-	exit;
+	print "done\n";
 	}
 	
 =item dist_test
@@ -1086,7 +1089,7 @@ Chris Nandor helped with figuring out the broken SourceForge stuff.
 =head1 SOURCE AVAILABILITY
 
 This source is part of a SourceForge project which always has the
-latest sources in CVS, as well as all of the previous releases. This
+latest sources in SVN, as well as all of the previous releases. This
 source now lives in the "Module/Release" section of the repository,
 and older sources live in the "release" section.
 

@@ -1,4 +1,11 @@
-$Id: Changes 2160 2007-02-21 21:33:22Z comdog $
+$Id: Changes 2164 2007-02-22 16:18:11Z comdog $
+
+1.13 - Thu Feb 22 10:16:18 2007
+	* Updated the distro for PAUSE indexing problems (my fault)
+	* release(1) now detects SVN and loads Module::Release::Subversion 
+	to handle it (that's a separate distro, though).
+	* release(1) now uses Module::CPANTS::Analyze's cpants_lint.pl
+	to check kwalitee. That's also a separate distro.
 
 1.13 - Wed Feb 21 15:22:18 2007
 
