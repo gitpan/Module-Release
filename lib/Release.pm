@@ -1,4 +1,4 @@
-# $Id: Release.pm 2161 2007-02-22 16:13:27Z comdog $
+# $Id: Release.pm 2257 2007-05-01 21:57:53Z comdog $
 package Module::Release;
 
 =head1 NAME
@@ -17,21 +17,21 @@ Module::Release - Automate software releases
 
 =cut
 
+use strict;
 use vars qw( $VERSION );
 
-$VERSION = 1.14;
+$VERSION = 1.15;
 
-use strict;
 use Carp;
-use Config;
 use CGI qw(-oldstyle_urls);
+use Config;
 use ConfigReader::Simple;
-use Exporter;
-use LWP::UserAgent;
+use File::Spec;
+use File::Temp;
 use HTTP::Cookies;
 use HTTP::Request;
+use LWP::UserAgent;
 use Net::FTP;
-use File::Spec;
 
 use constant DASHES => "-" x 73;
 
