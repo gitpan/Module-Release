@@ -1,4 +1,4 @@
-# $Id: Release.pm 2257 2007-05-01 21:57:53Z comdog $
+# $Id: Release.pm 2263 2007-05-03 15:08:00Z comdog $
 package Module::Release;
 
 =head1 NAME
@@ -20,7 +20,7 @@ Module::Release - Automate software releases
 use strict;
 use vars qw( $VERSION );
 
-$VERSION = 1.16;
+$VERSION = 1.17;
 
 use Carp;
 use CGI qw(-oldstyle_urls);
