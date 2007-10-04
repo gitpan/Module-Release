@@ -1,4 +1,4 @@
-# $Id: Makefile.PL 2159 2007-02-21 21:13:23Z comdog $
+# $Id: Makefile.PL 2324 2007-10-03 10:08:43Z comdog $
 use ExtUtils::MakeMaker;
 
 eval "use Test::Manifest 1.14";
@@ -8,7 +8,7 @@ WriteMakefile(
 	'AUTHOR'       => 'brian d foy <bdfoy@cpan.org>',
 	'ABSTRACT'     => 'Automate software releases',
 	'VERSION_FROM' => "lib/Release.pm",
-	'LICENSE'       => 'perl',
+	'LICENSE'      => 'perl',
 
 	'EXE_FILES'    =>  [ 'script/release' ],
 
@@ -17,6 +17,7 @@ WriteMakefile(
 		'ConfigReader::Simple' => 0,
 		'Net::FTP'             => 0,
 		'HTTP::Message'        => 0,
+		'IO::Null'             => 0,
 		'Crypt::SSLeay'        => 0,
 		'File::Temp'           => 0,
 		},
@@ -29,5 +30,5 @@ WriteMakefile(
 		'script/release' => '$(INST_MAN1DIR)/release.1',
 		},
 
-	clean => { FILES => '*.bak release-*' },
+	clean => { FILES => '*.bak release-* Module-*' },
 	);
