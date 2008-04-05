@@ -1,4 +1,4 @@
-# $Id: compile.t 2263 2007-05-03 15:08:00Z comdog $
+# $Id: compile.t 2515 2008-04-05 11:58:48Z comdog $
 
 use Test::More tests => 2;
 
@@ -12,7 +12,7 @@ SKIP: {
 	
 	use_ok( 'Module::Release' );
 	
-	my $output = `$^X -c $file 2>&1`;
+	my $output = `$^X -Mblib -c $file 2>&1`;
 			
 	like( $output, qr/syntax OK$/, 'script compiles' );
 	}

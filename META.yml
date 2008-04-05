@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:                Module-Release
-version:             1.20
+version:             1.21
 abstract:            Automate software releases
 license:             perl
 generated_by:        ExtUtils::MakeMaker version 6.36
