@@ -1,4 +1,4 @@
-# $Id: Release.pm 2624 2008-08-03 04:30:48Z comdog $
+# $Id: Release.pm 2647 2008-08-09 08:48:47Z comdog $
 package Module::Release;
 
 =head1 NAME
@@ -25,7 +25,7 @@ no warnings;
 
 #$VERSION = sprintf "%d.%02d", qw( 1 26 );
 
-$VERSION = '2.00_01';
+$VERSION = '2.00_02';
 
 use Carp;
 use File::Spec;
@@ -1236,7 +1236,7 @@ sub run
 
 	my $readlen = $self->debug ? 1 : 256;
 
-	while (read $fh, $buffer, $readlen)
+	while( read $fh, $buffer, $readlen )
 		{
 		$output .= $_;
 		$self->_debug( $_, $buffer );
@@ -1248,7 +1248,7 @@ sub run
 	unless( close $fh )
 		{
 		$self->_run_error_set;
-		$self->_die(  "Command [$command] didn't close cleanly" );
+		$self->_warn(  "Command [$command] didn't close cleanly: $?" );
 		}
 
 	return $output;
