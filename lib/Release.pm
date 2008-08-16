@@ -1,4 +1,4 @@
-# $Id: Release.pm 2647 2008-08-09 08:48:47Z comdog $
+# $Id: Release.pm 2668 2008-08-15 14:42:24Z comdog $
 package Module::Release;
 
 =head1 NAME
@@ -25,7 +25,7 @@ no warnings;
 
 #$VERSION = sprintf "%d.%02d", qw( 1 26 );
 
-$VERSION = '2.00_02';
+$VERSION = '2.00_03';
 
 use Carp;
 use File::Spec;

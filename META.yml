@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:                Module-Release
-version:             2.00_02
+version:             2.00_03
 abstract:            Automate software releases
 license:             perl
 author:              
