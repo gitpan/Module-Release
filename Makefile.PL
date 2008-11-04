@@ -1,4 +1,4 @@
-# $Id: Makefile.PL 2668 2008-08-15 14:42:24Z comdog $
+# $Id$
 use ExtUtils::MakeMaker;
 
 require 5.008;
@@ -22,6 +22,8 @@ WriteMakefile(
 		'IO::Null'             => 0,
 		'Crypt::SSLeay'        => 0,
 		'Test::Output'         => 0,
+		'URI'                  => 0,
+		'HTTP::Request'        => 0,
 		},
 
 	'PM'           => {
@@ -30,6 +32,7 @@ WriteMakefile(
 		'lib/FTP.pm'     => '$(INST_LIBDIR)/Release/FTP.pm',
 		'lib/PAUSE.pm'   => '$(INST_LIBDIR)/Release/PAUSE.pm',
 		'lib/Kwalitee.pm'   => '$(INST_LIBDIR)/Release/Kwalitee.pm',
+		'lib/Prereq.pm'   => '$(INST_LIBDIR)/Release/Prereq.pm',
 		#map { "lib/$_.pm" => "\$(INST_LIBDIR)/Release/$_.pm" } qw( SVN PAUSE FTP ),
 		},
 
