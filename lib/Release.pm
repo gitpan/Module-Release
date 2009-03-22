@@ -1,4 +1,3 @@
-# $Id$
 package Module::Release;
 
 =head1 NAME
@@ -23,7 +22,7 @@ use warnings;
 no warnings;
 use vars qw($VERSION);
 
-$VERSION = '2.02';
+$VERSION = '2.03';
 
 use Carp;
 use File::Spec;
@@ -1358,7 +1357,7 @@ brian d foy, C<< <bdfoy@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (c) 2002-2008 brian d foy.  All rights reserved.
+Copyright (c) 2002-2009 brian d foy.  All rights reserved.
 
 This program is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

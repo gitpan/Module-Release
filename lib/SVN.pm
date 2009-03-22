@@ -1,4 +1,3 @@
-# $Id$
 package Module::Release::SVN;
 
 use strict;
@@ -10,7 +9,7 @@ use Carp;
 
 our @EXPORT = qw(check_vcs vcs_tag make_vcs_tag);
 
-$VERSION = '2.02';
+$VERSION = '2.03';
 
 =head1 NAME
 
@@ -267,7 +266,7 @@ brian d foy, C<< <bdfoy@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (c) 2007-2008, brian d foy, All Rights Reserved.
+Copyright (c) 2007-2009, brian d foy, All Rights Reserved.
 
 You may redistribute this under the same terms as Perl itself.
 

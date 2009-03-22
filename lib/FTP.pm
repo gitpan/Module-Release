@@ -1,4 +1,3 @@
-# $Id$
 package Module::Release::FTP;
 
 use strict;
@@ -13,7 +12,7 @@ our @EXPORT = qw(
 	default_ftp_password default_ftp_upload_dir
 	);
 
-$VERSION = '2.02';
+$VERSION = '2.03';
 
 =head1 NAME
 
@@ -201,7 +200,7 @@ brian d foy, C<< <bdfoy@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (c) 2007-2008, brian d foy, All Rights Reserved.
+Copyright (c) 2007-2009, brian d foy, All Rights Reserved.
 
 You may redistribute this under the same terms as Perl itself.
 
