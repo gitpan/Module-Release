@@ -7,7 +7,7 @@ use vars qw($VERSION);
 
 our @EXPORT = qw( check_prereqs _get_prereq_ignore_list );
 
-$VERSION = '2.04_01';
+$VERSION = '2.04_03';
 
 =head1 NAME
 
@@ -54,8 +54,8 @@ sub check_prereqs
 	}
 
 sub _get_prereq_ignore_list
-	{	
-	my @ignore = split /\s+/, $_[0]->config->ignore_prereqs;
+	{
+	my @ignore = split /\s+/, $_[0]->config->ignore_prereqs || '';
 	}
 
 =back

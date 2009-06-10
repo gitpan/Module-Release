@@ -1,9 +1,18 @@
-# $Id$
 use ExtUtils::MakeMaker;
+use strict;
+use warnings;
 
 require 5.008;
 
-eval "use Test::Manifest 1.14";
+eval "use Test::Manifest 1.21";
+
+my @plugins = qw( SVN PAUSE FTP Kwalitee Prereq );
+
+# The $|++ is there just to let Perl know it's not a hash. I don't know
+# how it's deciding to parse that.
+my %modules = map { $|++; "lib/$_.pm" => "\$(INST_LIBDIR)/Release/$_.pm" } @plugins;
+my %man3    = map { $|++; "lib/$_.pm" => "\$(INST_MAN3DIR)/Module::Release::$_.\$(MAN3EXT)" } @plugins;
+
 
 WriteMakefile(
 	'NAME'	       => 'Module::Release',
@@ -29,21 +38,32 @@ WriteMakefile(
 
 	'PM'           => {
 		'lib/Release.pm' => '$(INST_LIBDIR)/Release.pm',
-		'lib/SVN.pm'     => '$(INST_LIBDIR)/Release/SVN.pm',
-		'lib/FTP.pm'     => '$(INST_LIBDIR)/Release/FTP.pm',
-		'lib/PAUSE.pm'   => '$(INST_LIBDIR)/Release/PAUSE.pm',
-		'lib/Kwalitee.pm'   => '$(INST_LIBDIR)/Release/Kwalitee.pm',
-		'lib/Prereq.pm'   => '$(INST_LIBDIR)/Release/Prereq.pm',
-		#map { "lib/$_.pm" => "\$(INST_LIBDIR)/Release/$_.pm" } qw( SVN PAUSE FTP ),
+		%modules,
 		},
 
+	(
+	$ExtUtils::MakeMaker::VERSION ge '6.48' ? 
+		(
+		MIN_PERL_VERSION => 5.006,
+
+		META_MERGE       => {
+			resources => {
+		  		repository => 'git://github.com/briandfoy/module-release.git',
+				},
+			keywords => ['workflow', 'module', 'distribution', 'pause'],
+	  		},
+	 	) 
+	 	: 
+	 	()
+	 ),
+
 	'MAN1PODS'     => {
-		'script/release' => '$(INST_MAN1DIR)/release.1',
+		'script/release' => '$(INST_MAN1DIR)/release.$(MAN1EXT)',
 		},
 
 	'MAN3PODS'     => {
-		'lib/Release.pm' => '$(INST_MAN3DIR)/Module::Release.3',
-		'lib/SVN.pm'     => '$(INST_MAN3DIR)/Module::Release::SVN.3',
+		'lib/Release.pm' => '$(INST_MAN3DIR)/Module::Release.$(MAN3EXT)',
+		%man3,
 		},
 
 	clean => { FILES => '*.bak release-* Module-*' },

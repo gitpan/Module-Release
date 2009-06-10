@@ -1,12 +1,6 @@
 #!/usr/local/bin/perl
-
-eval 'exec /usr/local/bin/perl  -S $0 ${1+"$@"}'
-    if 0; # not running under some shell
-
 use strict;
 use warnings;
-
-# $Id$
 
 =head1 NAME
 
