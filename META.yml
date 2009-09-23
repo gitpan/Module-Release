@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Module-Release
-version:            2.05
+version:            2.05_01
 abstract:           Automate software releases
 author:
     - brian d foy <bdfoy@cpan.org>
@@ -36,3 +36,5 @@ keywords:
     - module
     - distribution
     - pause
+    - automation
+    - testing
