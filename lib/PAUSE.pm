@@ -10,7 +10,7 @@ our @EXPORT = qw(
 	pause_claim_base_url pause_claim_content pause_claim_content_type
 	);
 
-$VERSION = '2.05_01';
+$VERSION = '2.05_02';
 
 =head1 NAME
 
@@ -19,7 +19,7 @@ Module::Release::PAUSE - Interact with the Perl Authors Upload Server (PAUSE)
 =head1 SYNOPSIS
 
 The release script automatically loads this module if it thinks that you
-want to upload to PAUSE by noticing the C<cpan_user> configuration 
+want to upload to PAUSE by noticing the C<cpan_user> configuration
 directive.
 
 =head1 DESCRIPTION
@@ -41,7 +41,7 @@ sub set_pause_ftp_site
 		$_[0]->_warn( "The argument [$_[0]] does not look like a hostname" );
 		return;
 		}
-		
+
 	$_[0]->{pause_ftp_site} = $_[1];
 	}
 
@@ -65,7 +65,7 @@ Returns true is the object thinks it should upload a distro to PAUSE.
 sub should_upload_to_pause
 	{
 	no warnings 'uninitialized';
-	$_[0]->_debug(    "CPAN user: " . $_[0]->config->cpan_user . 
+	$_[0]->_debug(    "CPAN user: " . $_[0]->config->cpan_user .
 		           " | CPAN pass: " . $_[0]->config->cpan_pass . "\n" );
 	$_[0]->config->cpan_user && $_[0]->config->cpan_pass
 	}
@@ -86,7 +86,7 @@ sub pause_claim
 	my $ua  = $self->get_web_user_agent;
 
 	my $request = HTTP::Request->new( POST => $self->pause_claim_base_url );
-	
+
 	$request->content_type( $self->pause_claim_content_type );
 
 	$request->content( $self->pause_claim_content );
@@ -103,14 +103,14 @@ sub pause_claim
 
 =item pause_claim_base_url
 
-The base URL to claim something in PAUSE. This is 
+The base URL to claim something in PAUSE. This is
 C<https://pause.perl.org/pause/authenquery>.
 
 XXX: This should read from pause_ftp_site probably
 
 =cut
 
-sub pause_claim_base_url { 'https://pause.perl.org/pause/authenquery' } 
+sub pause_claim_base_url { 'https://pause.perl.org/pause/authenquery' }
 
 =item pause_claim_content
 
@@ -121,7 +121,7 @@ Construct the data for the POST request to claim a file in PAUSE.
 sub pause_claim_content
 	{
 	require CGI; CGI->import( qw(-oldstyle_urls) );
-	
+
 	my $cgi = CGI->new();
 
 	$cgi->param( 'HIDDENNAME',                     $_[0]->config->cpan_user     );
@@ -135,7 +135,7 @@ sub pause_claim_content
 
 =item pause_claim_content_type
 
-The content type for the POST request to claim a file in PAUSE. This is 
+The content type for the POST request to claim a file in PAUSE. This is
 C<application/x-www-form-urlencoded>.
 
 =cut
@@ -160,7 +160,7 @@ brian d foy, C<< <bdfoy@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (c) 2007-2009, brian d foy, All Rights Reserved.
+Copyright (c) 2007-2011, brian d foy, All Rights Reserved.
 
 You may redistribute this under the same terms as Perl itself.
 

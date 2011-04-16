@@ -9,7 +9,7 @@ use Carp;
 
 our @EXPORT = qw(check_vcs vcs_tag make_vcs_tag);
 
-$VERSION = '2.05_01';
+$VERSION = '2.05_02';
 
 =head1 NAME
 
@@ -52,7 +52,7 @@ sub check_cvs
 	carp "check_cvs is deprecated in favor of check_vcs. Update your programs!";
 	&check_vcs;
 	}
-	
+
 sub check_vcs
 	{
 	my $self = shift;
@@ -135,7 +135,7 @@ sub cvs_tag
 	carp "cvs_tag is deprecated in favor of vcs_tag. Update your programs!";
 	&check_vcs;
 	}
-	
+
 sub vcs_tag
 	{
 	require URI;
@@ -238,7 +238,7 @@ sub make_cvs_tag
 	carp "make_cvs_tag is deprecated in favor of make_vcs_tag. Update your programs!";
 	&make_vcs_tag;
 	}
-	
+
 sub make_vcs_tag
 	{
 	my $self = shift;
@@ -266,7 +266,7 @@ brian d foy, C<< <bdfoy@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (c) 2007-2009, brian d foy, All Rights Reserved.
+Copyright (c) 2007-2011, brian d foy, All Rights Reserved.
 
 You may redistribute this under the same terms as Perl itself.
 

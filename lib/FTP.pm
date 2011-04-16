@@ -5,14 +5,14 @@ use warnings;
 use base qw(Exporter);
 use vars qw($VERSION);
 
-our @EXPORT = qw( 
-	ftp_upload ftp_passive_on ftp_passive_off ftp_passive 
-	ftp_class_name get_ftp_object 
-	default_ftp_hostname default_ftp_user 
+our @EXPORT = qw(
+	ftp_upload ftp_passive_on ftp_passive_off ftp_passive
+	ftp_class_name get_ftp_object
+	default_ftp_hostname default_ftp_user
 	default_ftp_password default_ftp_upload_dir
 	);
 
-$VERSION = '2.05_01';
+$VERSION = '2.05_02';
 
 =head1 NAME
 
@@ -46,23 +46,23 @@ module):
 sub ftp_upload
 	{
 	my $self = shift;
-	
+
 	my %defaults = map { my $m = "default_ftp_$_"; $_, $self->$m() } qw(
 		upload_dir
 		user
 		password
 		hostname
 		);
-	
-	my %params = ( 
-		%defaults, 
+
+	my %params = (
+		%defaults,
 		@_,
 		);
 
 	$self->_print( "Logging in to $params{hostname}\n" );
-		
+
 	my $ftp = $self->get_ftp_object( $params{hostname} );
-	
+
 	$ftp->login( @params{ qw(user password) } )
 		or $self->_die( "Couldn't log in to $params{hostname}" );
 
@@ -119,20 +119,20 @@ sub ftp_class_name { 'Net::FTP' }
 
 =item get_ftp_object( HOSTNAME )
 
-Create and returnt the FTP object, based on the class name from 
+Create and returnt the FTP object, based on the class name from
 C<ftp_class_name>. IT connects to HOSTNAME, but does not login.
 
 =cut
 
-sub get_ftp_object 
+sub get_ftp_object
 	{
 	my( $self, $site ) = @_;
-	
+
 	my $class = $self->ftp_class_name;
 	my $rc = eval { eval "require $class" };
-	
+
 	$self->_die( "Couldn't load $class: $@" ) unless defined $rc;
-		
+
 	$self->_debug( "Will use passive FTP transfers\n" ) if $self->ftp_passive;
 
 	my $ftp = $class->new(
@@ -141,7 +141,7 @@ sub get_ftp_object
 		Debug   => $self->debug,
 		Passive => $self->ftp_passive,
 		) or $self->_die( "Couldn't open FTP connection to $site: $@" );
-	
+
 	return $ftp;
 	}
 
@@ -149,7 +149,7 @@ sub get_ftp_object
 
 =head2 Default values
 
-Override these methods to change the default values. Remember that 
+Override these methods to change the default values. Remember that
 the overridden methods have to show up in the C<Module::Release>
 namespace.
 
@@ -200,7 +200,7 @@ brian d foy, C<< <bdfoy@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (c) 2007-2009, brian d foy, All Rights Reserved.
+Copyright (c) 2007-2011, brian d foy, All Rights Reserved.
 
 You may redistribute this under the same terms as Perl itself.
 

@@ -7,7 +7,7 @@ use vars qw($VERSION);
 
 our @EXPORT = qw( check_prereqs _get_prereq_ignore_list );
 
-$VERSION = '2.05_01';
+$VERSION = '2.05_02';
 
 =head1 NAME
 
@@ -38,15 +38,15 @@ sub check_prereqs
 		$_[0]->_die( "You need Test::Prereq to check prereqs" );
 
 	$_[0]->_print( "Checking prereqs... " );
-	
+
 	my $perl = $_[0]->{perl};
-	
+
 	my @ignore = $_[0]->_get_prereq_ignore_list;
-	
-	my $messages = $_[0]->run( 
-		qq|$perl -MTest::Prereq -e "prereq_ok( undef, undef, [ qw(@ignore) ] )"| 
+
+	my $messages = $_[0]->run(
+		qq|$perl -MTest::Prereq -e "prereq_ok( undef, undef, [ qw(@ignore) ] )"|
 		);
-	
+
 	$_[0]->_die( "Prereqs had a problem:\n$messages\n" )
 		unless $messages =~ m/^ok 1 - Prereq test/m;
 
@@ -76,7 +76,7 @@ brian d foy, C<< <bdfoy@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (c) 2007-2009, brian d foy, All Rights Reserved.
+Copyright (c) 2007-2011, brian d foy, All Rights Reserved.
 
 You may redistribute this under the same terms as Perl itself.
 

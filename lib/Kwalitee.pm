@@ -7,7 +7,7 @@ use vars qw($VERSION);
 
 our @EXPORT = qw(check_kwalitee cpants_lint cpants_pass_regex );
 
-$VERSION = '2.05_01';
+$VERSION = '2.05_02';
 
 =head1 NAME
 
@@ -40,17 +40,17 @@ sub check_kwalitee
 
 	my $name    = $_[0]->local_file;
 	my $program = $_[0]->cpants_lint;
-	
+
 	{
 	no warnings 'uninitialized';
 	$_[0]->_die( " no $name---aborting release\n" ) unless -e $name;
 	}
-	
+
 	# XXX: what if it's not .tar.gz?
 	my $messages = $_[0]->run( "$program $name" );
 
 	my $regex = $_[0]->cpants_pass_regex;
-	
+
 	$_[0]->_die( "Kwalitee is less than perfect:\n$messages\n" )
 		unless $messages =~ m/$regex/;
 
@@ -90,7 +90,7 @@ brian d foy, C<< <bdfoy@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (c) 2007-2009, brian d foy, All Rights Reserved.
+Copyright (c) 2007-2011, brian d foy, All Rights Reserved.
 
 You may redistribute this under the same terms as Perl itself.
 
