@@ -22,9 +22,9 @@ use warnings;
 no warnings;
 use vars qw($VERSION);
 
-$VERSION = '2.05_02';
+$VERSION = '2.05_04';
 
-use Carp;
+use Carp qw(carp croak);
 use File::Basename qw(dirname);
 use File::Spec;
 use Scalar::Util qw(blessed);
@@ -565,7 +565,7 @@ Added in 1.21.
 
 sub get_perl { $_[0]->{perl} }
 
-=item perls
+=item perls()
 
 Return the list of perl binaries Module::Release will use to test the
 distribution.
@@ -574,12 +574,7 @@ Added in 1.21.
 
 =cut
 
-sub perls
-	{
-	my $self = shift;
-
-	return keys %{ $self->{perls} };
-	}
+sub perls { keys %{ $_[0]->{perls} } }
 
 =item add_a_perl( PATH )
 
@@ -601,7 +596,6 @@ sub add_a_perl
 
 	unless( -x $path )
 		{
-		$self->_warn( "$path is not executable" );
 		if( $path =~ m/[*?[]/ && $self->config->allow_glob_in_perls )
 			{
 			$self->add_a_perl( $_ ) for glob $path;
