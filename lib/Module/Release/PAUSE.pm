@@ -10,7 +10,7 @@ our @EXPORT = qw(
 	pause_claim_base_url pause_claim_content pause_claim_content_type
 	);
 
-$VERSION = '2.05_04';
+$VERSION = '2.05_06';
 
 =head1 NAME
 
@@ -79,11 +79,14 @@ Claim the file in PAUSE
 sub pause_claim
 	{
 	require HTTP::Request;
+	require CACertOrg::CA;
 
 	my $self = shift;
 	return unless $self->should_upload_to_pause;
 
 	my $ua  = $self->get_web_user_agent;
+	$ua->ssl_opts( verify_hostnames => 1 );
+	$ua->ssl_opts( SSL_ca_file => CACertOrg::CA::SSL_ca_file() );
 
 	my $request = HTTP::Request->new( POST => $self->pause_claim_base_url );
 

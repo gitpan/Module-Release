@@ -22,7 +22,7 @@ use warnings;
 no warnings;
 use vars qw($VERSION);
 
-$VERSION = '2.05_04';
+$VERSION = '2.05_06';
 
 use Carp qw(carp croak);
 use File::Basename qw(dirname);
@@ -528,12 +528,12 @@ Added in 1.21.
 
 =cut
 
-sub set_perl
-	{
+sub set_perl {
 	my( $self, $path ) = @_;
 
-	unless( my $version = $self->_looks_like_perl( $path ) )
-		{
+	# resolve a path, especially on Windows, like
+	# C:\STRAWB~1\perl\bin\perl.exe
+	unless( my $version = $self->_looks_like_perl( $path ) ) {
 		$self->_die( "Does not look like a perl [$path]" );
 		}
 
@@ -544,10 +544,11 @@ sub set_perl
 	$old_perl;
 	}
 
-sub _looks_like_perl
-	{
+sub _looks_like_perl {
 	my( $self, $path ) = @_;
 
+	# resolve a path, especially on Windows, like
+	# C:\STRAWB~1\perl\bin\perl.exe
 	my $version = `$path -e "print \$\]" 2>&1`;
 
 	$version =~ m/^\d+\.[\d_]+$/ ? $version : ();
@@ -1218,7 +1219,7 @@ sub check_for_passwords
 		$_[0]->config->set( 'cpan_pass', $pass );
 		}
 
-	$_[0]->_debug( "CPAN pass is " . $_[0]->config->cpan_pass );
+	$_[0]->_debug( "CPAN pass is " . $_[0]->config->cpan_pass . "\n" );
 	}
 
 

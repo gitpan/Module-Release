@@ -1,7 +1,7 @@
 --- #YAML:1.0
 name:               Module-Release
-version:            2.05_04
-abstract:           Automate software releases
+version:            2.05_06
+abstract:           Automate Perl distribution releases
 author:
     - brian d foy <bdfoy@cpan.org>
 license:            perl
@@ -11,12 +11,13 @@ configure_requires:
 build_requires:
     ExtUtils::MakeMaker:  0
 requires:
+    CACertOrg::CA:        0
     ConfigReader::Simple:  0
-    Crypt::SSLeay:        0
     HTTP::Message:        0
     HTTP::Request:        0
     IO::Null:             0
-    LWP::UserAgent:       0
+    LWP::Protocol::https:  6.02
+    LWP::UserAgent:       6.02
     Net::FTP:             0
     perl:                 5.008
     Test::Output:         0
@@ -28,7 +29,7 @@ no_index:
     directory:
         - t
         - inc
-generated_by:       ExtUtils::MakeMaker version 6.50
+generated_by:       ExtUtils::MakeMaker version 6.57_05
 meta-spec:
     url:      http://module-build.sourceforge.net/META-spec-v1.4.html
     version:  1.4

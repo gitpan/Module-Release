@@ -9,7 +9,7 @@ eval "use Test::Manifest 1.21";
 WriteMakefile(
 	'NAME'	       => 'Module::Release',
 	'AUTHOR'       => 'brian d foy <bdfoy@cpan.org>',
-	'ABSTRACT'     => 'Automate software releases',
+	'ABSTRACT'     => 'Automate Perl distribution releases',
 	'VERSION_FROM' => "lib/Module/Release.pm",
 	'LICENSE'      => 'perl',
 
@@ -17,16 +17,17 @@ WriteMakefile(
 
 	'PREREQ_PM'    => 
 		{
-		'ConfigReader::Simple'  => 0,
-		'Crypt::SSLeay'         => 0,
-		'HTTP::Message'         => 0,
-		'HTTP::Request'         => 0,
-		'IO::Null'              => 0,
-		'LWP::UserAgent'        => 0,
-		'Net::FTP'              => 0,
-		'Test::Output'          => 0,
-		'Test::Without::Module' => 0,
-		'URI'                   => 0,
+		'CACertOrg::CA'         => '0',
+		'ConfigReader::Simple'  => '0',
+		'HTTP::Message'         => '0',
+		'HTTP::Request'         => '0',
+		'IO::Null'              => '0',
+		'LWP::Protocol::https'  => '6.02',
+		'LWP::UserAgent'        => '6.02',
+		'Net::FTP'              => '0',
+		'Test::Output'          => '0',
+		'Test::Without::Module' => '0',
+		'URI'                   => '0',
 		},
 
 
