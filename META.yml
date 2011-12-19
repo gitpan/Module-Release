@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Module-Release
-version:            2.05_07
+version:            2.06
 abstract:           Automate Perl distribution releases
 author:
     - brian d foy <bdfoy@cpan.org>
