@@ -22,7 +22,7 @@ use warnings;
 no warnings;
 use vars qw($VERSION);
 
-$VERSION = '2.06';
+$VERSION = '2.06_01';
 
 use Carp qw(carp croak);
 use File::Basename qw(dirname);
@@ -381,9 +381,7 @@ sub load_mixin
 
 	return 1 if $self->mixin_loaded( $module );
 
-	no warnings 'redefine';
-
-	eval "use $module";
+	{ local $^W = 0; eval "use $module" };
 
 	$self->_die( "Could not load [$module]! $@" ) if $@;
 
@@ -1171,20 +1169,17 @@ separate module.
 
 =cut
 
-sub check_vcs
-	{
-	$_[0]->_die( "check_cvs must be implemented in a mixin class" );
+sub check_vcs {
+	$_[0]->_die( "check_vcs must be implemented in a mixin class" );
 	}
 
 
-sub vcs_tag
-	{
-	$_[0]->_die( "cvs_tag must be implemented in a mixin class" );
+sub vcs_tag {
+	$_[0]->_die( "vcs_tag must be implemented in a mixin class" );
 	}
 
-sub make_vcs_tag
-	{
-	$_[0]->_die( "make_cvs_tag must be implemented in a mixin class" );
+sub make_vcs_tag {
+	$_[0]->_die( "make_vcs_tag must be implemented in a mixin class" );
 	}
 
 =item touch( FILES )
