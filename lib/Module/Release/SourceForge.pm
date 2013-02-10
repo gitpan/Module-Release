@@ -1,5 +1,7 @@
 package Module::Release::SourceForge;
 
+=encoding utf8
+
 =head1 NAME
 
 Module::Release::SourceForge - Work with SourceForge with Module::Release
@@ -17,7 +19,7 @@ use vars qw( $VERSION );
 use warnings;
 no warnings;
 
-$VERSION = '2.06_01';
+$VERSION = '2.06_04';
 
 =head1 DESCRIPTION
 
@@ -286,7 +288,7 @@ Chris Nandor helped with figuring out the broken SourceForge stuff.
 
 This source is in Github:
 
-	git://github.com/briandfoy/module-release.git
+	https://github.com/briandfoy/module-release
 
 =head1 AUTHOR
 
@@ -294,7 +296,7 @@ brian d foy, C<< <bdfoy@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (c) 2002-2011 brian d foy.  All rights reserved.
+Copyright (c) 2002-2013 brian d foy.  All rights reserved.
 
 This program is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

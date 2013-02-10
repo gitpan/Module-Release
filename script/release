@@ -74,12 +74,8 @@ source control complains, fail.
 
 =item Upload to PAUSE
 
-Simply drop the distribution in the incoming/ directory of PAUSE
-
-=item Claim the file on PAUSE
-
-Connect to the PAUSE web thingy and claim the uploaded file for your
-CPAN account.
+This program used to use FTP uploads, but PAUSE has turned that feature.
+Now it uploads through the web form.
 
 =item Tag the repository
 
@@ -123,6 +119,10 @@ Have you considered just fixing the prereqs though? :)
 
 Run all checks then stop. Do not change any files or upload the distribution.
 
+=item -T
+
+Skip the tests. This is useful when you just want to upload.
+
 =item -v
 
 Print the program name and version then exit
@@ -161,7 +161,8 @@ The PAUSE user
 =item passive_ftp
 
 Set C<passive_ftp> to "y" or "yes" for passive FTP transfers.  Usually
-this is to get around a firewall issue.
+this is to get around a firewall issue. Note that PAUSE has turned off
+FTP uploads, so this setting is useless now.
 
 =item perls
 
@@ -237,7 +238,7 @@ make; otherwise, the perl used to run release will be used.
 
 This source is in Github as part of the Module::Release project:
 
-        git://github.com/briandfoy/module-release.git
+	https://github.com/briandfoy/module-release
 
 =head1 AUTHOR
 
@@ -245,7 +246,7 @@ brian d foy, C<< <bdfoy@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2002-2011, brian d foy, All rights reserved.
+Copyright 2002-2013, brian d foy, All rights reserved.
 
 You may use this software under the same terms as Perl itself.
 
@@ -268,22 +269,20 @@ my $class = "Module::Release";
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 my %opts;
-getopts('aChdptvk', \%opts) or $opts{h} = 1;
+getopts('aChdptvkT', \%opts) or $opts{h} = 1;
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 my( $script_version ) = '2.00_04';
 
-if( $opts{v} )
-	{
+if( $opts{v} ) {
 	print "$0 version $script_version\n";
 	exit;
 	}
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-if( $opts{h} )
-	{
+if( $opts{h} ) {
 	print <<"USE";
 
 Use: release -aCdhktv [ LOCAL_FILE [ REMOTE_FILE ] ]
@@ -314,12 +313,10 @@ USE
 my %params;
 $params{local}  = shift @ARGV if @ARGV;
 
-if( @ARGV )
-	{
+if( @ARGV ) {
     $params{remote} = shift @ARGV;
 	}
-elsif( $params{local} )
-	{
+elsif( $params{local} ) {
     $params{remote} = $params{local};
 	}
 
@@ -341,8 +338,7 @@ my @vcs = (
 	[ 'CVS'        => "Module::Release::CVS" ],
 	);
 
-foreach my $vcs ( @vcs )
-	{
+foreach my $vcs ( @vcs ) {
 	next unless -e $vcs->[0];
 
 	my $module = $vcs->[1];
@@ -360,8 +356,7 @@ foreach my $vcs ( @vcs )
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # Will we upload to PAUSE?
-if( $release->config->cpan_user ) # not a dry run
-	{
+if( $release->config->cpan_user ) { # not a dry run
 	$release->load_mixin( 'Module::Release::PAUSE' );
 	}
 
@@ -388,40 +383,36 @@ $release->_debug( "Automated testing is $ENV{AUTOMATED_TESTING}; -a was $opts{a}
 	
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # test with a bunch of perls
-{
-my $old_perl = $release->get_perl;
+unless( $opts{T} ) {
+	my $old_perl = $release->get_perl;
 
-foreach my $perl ( $release->perls )
-	{
-	$release->_print("============Testing with $perl\n");
-	$release->set_perl( $perl ) or next;
+	foreach my $perl ( $release->perls ) {
+		$release->_print("============Testing with $perl\n");
+		$release->set_perl( $perl ) or next;
 
-	$release->clean;
-	$release->build_makefile;
-	$release->make;
-	$release->test;
+		$release->clean;
+		$release->build_makefile;
+		$release->make;
+		$release->test;
 
-	unless( $skip_prereqs )
-		{
-		$release->check_prereqs;
-		}
-	else
-		{
-		$release->_print( "Skipping prereq checks. Shame on you!\n" );
-		}
+		unless( $skip_prereqs ) {
+			$release->check_prereqs;
+			}
+		else {
+			$release->_print( "Skipping prereq checks. Shame on you!\n" );
+			}
 		
-	$release->dist;
-	$release->disttest;
-	}
+		$release->dist;
+		$release->disttest;
+		}
 
-$release->set_perl( $old_perl );
-}
+	$release->set_perl( $old_perl );
+	}
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # check kwalitee
-unless( $opts{k} || $release->config->skip_kwalitee  )
-	{
+unless( $opts{k} || $release->config->skip_kwalitee  ) {
 	$release->load_mixin( 'Module::Release::Kwalitee' );
 	$release->_print("============Testing for kwalitee\n");
 	$release->clean;
@@ -430,16 +421,14 @@ unless( $opts{k} || $release->config->skip_kwalitee  )
 	$release->dist;
 	$release->check_kwalitee;
 	}
-else
-	{
+else {
 	$release->_print( "Skipping kwalitee checks. Shame on you!\n" );
 	}
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # check MANIFEST. When we run 'make manifest' nothing should be
 # added or removed from MANIFEST
-unless( $opts{'m'} || $release->config->skip_manifest )
-	{
+unless( $opts{'m'} || $release->config->skip_manifest ) {
 	$release->load_mixin('Module::Release::MANIFEST');
 	$release->clean;
 	$release->build_makefile;
@@ -456,6 +445,8 @@ unless( $opts{'m'} || $release->config->skip_manifest )
 $release->_print("============Checking source repository\n");
 
 $release->check_vcs;
+
+$release->dist unless( $release->local_file and -e $release->local_file );
 
 my $Version = $release->dist_version;
 
@@ -474,8 +465,7 @@ if( $opts{t} ) {
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-unless( $release->debug or $opts{C} )
-	{
+unless( $release->debug or $opts{C} ) {
 	my $changes = "Changes";
 	my $bak     = $changes . ".bak";
 
@@ -485,8 +475,7 @@ unless( $release->debug or $opts{C} )
 
 	my $str = $Version . " - " . localtime() . "\n";
 
-	while( <STDIN> )
-		{
+	while( <STDIN> ) {
 		$_ =~ s/^(\S)/\t$1/; # always indent
 
 		$str .= $_;
@@ -500,8 +489,7 @@ unless( $release->debug or $opts{C} )
 	open my $in, $bak or die "Could not read old $changes file! $!\n";
 	open my $out, ">", $changes;
 
-	while( <$in> )
-		{
+	while( <$in> ) {
 		print $out $_;
 		last unless m/\S/;
 		}
@@ -523,8 +511,7 @@ unless( $release->debug or $opts{C} )
 
 	$release->_print( $cvs_commit );
 	}
-else
-	{
+else {
 	$release->_print( "Skipping Changes file" );
 	}
 
@@ -542,16 +529,14 @@ $release->check_for_passwords;
 
 $release->_debug( "This is where I should release stuff\n" );
 
-$release->load_mixin( 'Module::Release::PAUSE' );
-while( $release->should_upload_to_pause )
-	{
-	$release->load_mixin( 'Module::Release::FTP' );
+while( $release->should_upload_to_pause ) {
+	$release->load_mixin( 'Module::Release::WebUpload::Mojo' );
 	$release->_print("Now uploading to PAUSE\n" );
 	$release->_print("============Uploading to PAUSE\n");
 	last if $release->debug;
 	
-	$release->ftp_upload( hostname => $release->pause_ftp_site );
-	$release->pause_claim;
+	$release->web_upload;
+
 	last;
 	}
 

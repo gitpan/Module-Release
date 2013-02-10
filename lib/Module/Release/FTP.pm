@@ -5,6 +5,8 @@ use warnings;
 use base qw(Exporter);
 use vars qw($VERSION);
 
+use Carp qw(croak);
+
 our @EXPORT = qw(
 	ftp_upload ftp_passive_on ftp_passive_off ftp_passive
 	ftp_class_name get_ftp_object
@@ -12,13 +14,18 @@ our @EXPORT = qw(
 	default_ftp_password default_ftp_upload_dir
 	);
 
-$VERSION = '2.06_01';
+$VERSION = '2.06_04';
+
+=encoding utf8
 
 =head1 NAME
 
 Module::Release::FTP - Interact with an FTP server
 
 =head1 SYNOPSIS
+
+NOTE: PAUSE has turned off FTP uploads. Methods in this class
+will croak.
 
 The release script automatically loads this module when it's time
 to upload a file
@@ -43,8 +50,8 @@ module):
 
 =cut
 
-sub ftp_upload
-	{
+sub ftp_upload {
+	croak "PAUSE moved hosts and has turned off FTP uploads\n";
 	my $self = shift;
 
 	my %defaults = map { my $m = "default_ftp_$_"; $_, $self->$m() } qw(
@@ -124,8 +131,7 @@ C<ftp_class_name>. IT connects to HOSTNAME, but does not login.
 
 =cut
 
-sub get_ftp_object
-	{
+sub get_ftp_object {
 	my( $self, $site ) = @_;
 
 	my $class = $self->ftp_class_name;
@@ -192,7 +198,7 @@ L<Module::Release>
 
 This source is in Github:
 
-	git://github.com/briandfoy/module-release.git
+	https://github.com/briandfoy/module-release
 
 =head1 AUTHOR
 
@@ -200,7 +206,7 @@ brian d foy, C<< <bdfoy@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (c) 2007-2011, brian d foy, All Rights Reserved.
+Copyright (c) 2007-2013, brian d foy, All Rights Reserved.
 
 You may redistribute this under the same terms as Perl itself.
 

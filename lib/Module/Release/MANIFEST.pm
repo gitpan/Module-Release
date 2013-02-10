@@ -7,7 +7,9 @@ use vars qw($VERSION);
 
 our @EXPORT = qw( check_MANIFEST );
 
-$VERSION = '2.06_01';
+$VERSION = '2.06_04';
+
+=encoding utf8
 
 =head1 NAME
 
@@ -67,7 +69,7 @@ L<Module::Release>
 
 This source is in Github:
 
-	git://github.com/briandfoy/module-release.git
+	https://github.com/briandfoy/module-release
 
 =head1 AUTHOR
 
@@ -75,7 +77,7 @@ brian d foy, C<< <bdfoy@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (c) 2009-2011, brian d foy, All Rights Reserved.
+Copyright (c) 2009-2013, brian d foy, All Rights Reserved.
 
 You may redistribute this under the same terms as Perl itself.
 
