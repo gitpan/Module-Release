@@ -16,7 +16,7 @@ our @EXPORT = qw(
 	pause_add_uri
 	);
 
-$VERSION = '2.06_04';
+$VERSION = '2.06_05';
 
 =encoding utf8
 
@@ -64,14 +64,6 @@ sub web_upload {
 		 );
 	my $code = $tx->res->code;
 	$self->_print( "File uploaded [$code]\n" );
-	
-	open my $fh, '>:utf8', 'mojo.req.txt';
-	print {$fh} $tx->req->to_string;
-	close $fh;
-
-	open my $fh, '>:utf8', 'mojo.res.txt';
-	print {$fh} $tx->res->to_string;
-	close $fh;
 	}
 
 sub make_agent {
@@ -79,7 +71,7 @@ sub make_agent {
 	my $agent = Mojo::UserAgent->new( name => 'release' );
 	$agent->http_proxy( $self->config->http_proxy ) if $self->config->http_proxy;
 	$agent->https_proxy( $self->config->https_proxy ) if $self->config->https_proxy;
-    require CACertOrg::CA;
+	require CACertOrg::CA;
 	$agent->cert( CACertOrg::CA::SSL_ca_file() );
 
 	return $agent;
