@@ -19,7 +19,7 @@ WriteMakefile(
 		'CACertOrg::CA'         => '0',
 		'ConfigReader::Simple'  => '0',
 		'IO::Null'              => '0',
-		'Mojo::UserAgent'       => '0',
+		'Mojolicious'           => '4',
 		'Test::Output'          => '0',
 		'Test::Without::Module' => '0',
 		'URI'                   => '0',
@@ -27,9 +27,25 @@ WriteMakefile(
 
 	MIN_PERL_VERSION => 5.010,
 
+	'META_MERGE' => {
+        'meta-spec' => { version => 2 },
+		resources => {
+			repository => {
+				type => 'git',
+				url  => 'git@github.com:briandfoy/tie-cycle.git',
+				web  => 'https://github.com/briandfoy/tie-cycle',
+				},
+			},
+		},
+
 	META_MERGE => {
+			'meta-spec' => { version => 2 },
 			resources => {
-		  		repository => 'git://github.com/briandfoy/module-release.git',
+				repository => {
+					type => 'git',
+					url  => 'git@github.com:briandfoy/tie-cycle.git',
+					web  => 'https://github.com/briandfoy/tie-cycle',
+					},
 				},
 			keywords => ['workflow', 'module', 'distribution', 
 				'pause', 'automation', 'testing'],
