@@ -22,5 +22,5 @@ no_index:
     - t
     - inc
 resources:
-  repository: https://github.com/briandfoy/tie-cycle
-version: 2.06_06
+  repository: https://github.com/briandfoy/module-release
+version: 2.07

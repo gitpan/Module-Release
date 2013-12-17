@@ -27,12 +27,12 @@
          "inc"
       ]
    },
-   "release_status" : "testing",
+   "release_status" : "stable",
    "resources" : {
       "repository" : {
          "type" : "git",
-         "web" : "https://github.com/briandfoy/tie-cycle"
+         "web" : "https://github.com/briandfoy/module-release"
       }
    },
-   "version" : "2.06_06"
+   "version" : "2.07"
 }
