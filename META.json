@@ -4,7 +4,7 @@
       "brian d foy <bdfoy@cpan.org>"
    ],
    "dynamic_config" : 1,
-   "generated_by" : "ExtUtils::MakeMaker version 6.62, CPAN::Meta::Converter version 2.112150",
+   "generated_by" : "ExtUtils::MakeMaker version 6.84, CPAN::Meta::Converter version 2.130880",
    "keywords" : [
       "workflow",
       "module",
@@ -27,12 +27,35 @@
          "inc"
       ]
    },
-   "release_status" : "stable",
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "6.64"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "CACertOrg::CA" : "0",
+            "ConfigReader::Simple" : "0",
+            "IO::Null" : "0",
+            "Mojolicious" : "4.50",
+            "URI" : "0",
+            "perl" : "5.01"
+         }
+      },
+      "test" : {
+         "requires" : {
+            "Test::Output" : "0",
+            "Test::Without::Module" : "0"
+         }
+      }
+   },
+   "release_status" : "testing",
    "resources" : {
       "repository" : {
          "type" : "git",
          "web" : "https://github.com/briandfoy/module-release"
       }
    },
-   "version" : "2.07"
+   "version" : "2.07_01"
 }

@@ -2,9 +2,12 @@
 abstract: 'Automate Perl distribution releases'
 author:
   - 'brian d foy <bdfoy@cpan.org>'
-build_requires: {}
+build_requires:
+  ExtUtils::MakeMaker: 6.64
+  Test::Output: 0
+  Test::Without::Module: 0
 dynamic_config: 1
-generated_by: 'ExtUtils::MakeMaker version 6.62, CPAN::Meta::Converter version 2.112150'
+generated_by: 'ExtUtils::MakeMaker version 6.84, CPAN::Meta::Converter version 2.130880'
 keywords:
   - workflow
   - module
@@ -21,6 +24,13 @@ no_index:
   directory:
     - t
     - inc
+requires:
+  CACertOrg::CA: 0
+  ConfigReader::Simple: 0
+  IO::Null: 0
+  Mojolicious: 4.50
+  URI: 0
+  perl: 5.01
 resources:
   repository: https://github.com/briandfoy/module-release
-version: 2.07
+version: 2.07_01
