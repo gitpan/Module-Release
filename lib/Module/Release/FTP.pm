@@ -14,7 +14,7 @@ our @EXPORT = qw(
 	default_ftp_password default_ftp_upload_dir
 	);
 
-$VERSION = '2.07_01';
+$VERSION = '2.08';
 
 =encoding utf8
 
@@ -25,10 +25,8 @@ Module::Release::FTP - Interact with an FTP server
 =head1 SYNOPSIS
 
 NOTE: PAUSE has turned off FTP uploads. Methods in this class
-will croak.
-
-The release script automatically loads this module when it's time
-to upload a file
+will croak. If you want to make a private PAUSE with FTP, you
+can adapt this manual.
 
 =head1 DESCRIPTION
 
@@ -206,7 +204,7 @@ brian d foy, C<< <bdfoy@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (c) 2007-2013, brian d foy, All Rights Reserved.
+Copyright (c) 2007-2014, brian d foy, All Rights Reserved.
 
 You may redistribute this under the same terms as Perl itself.
 
