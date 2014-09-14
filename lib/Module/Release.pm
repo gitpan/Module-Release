@@ -24,7 +24,7 @@ use warnings;
 no warnings;
 use vars qw($VERSION);
 
-$VERSION = '2.09';
+$VERSION = '2.11';
 
 use Carp qw(carp croak);
 use File::Basename qw(dirname);
@@ -471,15 +471,17 @@ sub perls {
     my $self = shift;
 
     my @perls = keys %{$self->{perls}};
+	warn "perls are [@perls]\n";
 
     # Sort them
     @perls =
 	map  { $_->[0] }
 	sort { $a->[2] <=> $b->[2] || $a->[3] <=> $b->[3] || $a->[0] cmp $b->[0] }
-	map  { [ $_, (m/(perl5\.(?|([0-9]{3})_?([0-9]{2})|([0-9]{1,2})\.([0-9]+)))/) ] }
-	map  { (m{.*/(.*)}) }
+	map  { [ $_->[0], ( $_->[1] =~ m/(perl5\.(?|([0-9]{3})_?([0-9]{2})|([0-9]{1,2})\.([0-9]+)))/) ] }
+	map  { [ $_, (m{.*/(.*)}) ] }
 	grep { -x $_ }
 	@perls;
+	warn "perls are [@perls]\n";
 
     warn "Testing with ", scalar @perls, " versions of perl\n";
     return @perls;
@@ -871,7 +873,7 @@ sub dist_version {
 		# The former are deprecated, but I assume we must
 		# gracefully use what we have available.
 		eval {
-			$version = version->VERSION >= 0.77?
+			$version = version->VERSION >= 0.77 ?
 				version->parse (lc($vee) . $version)->normal : # latest and best
 				''.version->new(lc($vee) . $version)         ; # legacy
 			1;
@@ -906,7 +908,7 @@ sub dist_version_format {
 	my $self = shift;
 	my( $major, $minor, $dev ) = @_;
 
-	sprintf "%d.%02d%s", $major, $minor, $dev;
+	sprintf "%s.%s%s", $major, $minor, $dev;
 	}
 
 =item check_manifest
@@ -950,7 +952,6 @@ sub _check_output_lines {
 		local $" = "\n\t";
 		$self->_print( "\n\t$message_hash->{$key}\n\t$rule\n\t@$list\n" );
 		}
-
 
 	return $count;
 	}

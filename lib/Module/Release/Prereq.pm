@@ -7,13 +7,13 @@ use vars qw($VERSION);
 
 our @EXPORT = qw( check_prereqs _get_prereq_ignore_list );
 
-$VERSION = '2.09';
+$VERSION = '2.11';
 
 =encoding utf8
 
 =head1 NAME
 
-Module::Release::Prereq - Check  pre-requisites list in build file
+Module::Release::Prereq - Check pre-requisites list in build file
 
 =head1 SYNOPSIS
 

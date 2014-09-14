@@ -224,6 +224,10 @@ debugging output.
 The C<PERL> environment variable sets the path to perl for use in the
 make; otherwise, the perl used to run release will be used.
 
+=item * RELEASE_OPTS
+
+A string representing options to add to the command line.
+
 =back
 
 =head1 TO DO
@@ -248,7 +252,7 @@ brian d foy, C<< <bdfoy@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2002-2013, brian d foy, All rights reserved.
+Copyright 2002-2014, brian d foy, All rights reserved.
 
 You may use this software under the same terms as Perl itself.
 
@@ -264,18 +268,24 @@ the automated_testing feature.
 =cut
 
 use Getopt::Std;
-use Module::Release '2.00_04';
+use Module::Release '2.01';
 
 my $class = "Module::Release";
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+$ENV{RELEASE_OPTS} = defined $ENV{RELEASE_OPTS} ? $ENV{RELEASE_OPTS} : '';
+$ENV{RELEASE_OPTS} =~ s/\A\s+|\s+\z//g;
+
+my @extra_opts = split /\s+/, $ENV{RELEASE_OPTS};
+push @ARGV, @extra_opts;
+
 my %opts;
 getopts('aChdptvkT', \%opts) or $opts{h} = 1;
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-my( $script_version ) = '2.00_04';
+my( $script_version ) = '2.01';
 
 if( $opts{v} ) {
 	print "$0 version $script_version\n";
@@ -463,7 +473,7 @@ else {
 	$release->_debug( "dist version is  $Version\n" );
 	}
 
-my $Version = $release->dist_version;
+$Version = $release->dist_version;
 
 $release->_debug( "dist version is  $Version\n" );
 
